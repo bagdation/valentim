@@ -29,6 +29,13 @@
       margin-bottom: 25px;
     }
 
+    .subtitle {
+      font-size: 18px;
+      color: #333;
+      margin-top: 10px;
+      display: none; /* Inicialmente escondido */
+    }
+
     .buttons {
       position: relative;
       height: 80px;
@@ -59,6 +66,9 @@
   <div class="container">
     <img id="mainImage" src="imgs/8d85674d-82b3-4002-8153-f34df4e6bafe.jpg" />
     <h1 id="text">Will you be my Valentine?</h1>
+    
+    <!-- Novo elemento para o texto adicional -->
+    <p id="subtitle" class="subtitle"></p>
 
     <div class="buttons">
       <button id="yesBtn" onclick="yesClick()">Sim</button>
@@ -143,10 +153,11 @@
     function yesClick() {
       document.getElementById('mainImage').src = 'imgs/WhatsApp Image 2026-01-25 at 18.55.32.jpeg';
       document.getElementById('text').textContent = 'Yaaay 💖';
-      document.getElementById('text').textContent = 'Vou te buscar pelas 11 horas😊';
+            document.getElementById('subtitle').textContent = 'Vou te buscar hás 11 horas! 😊💕';
+      document.getElementById('subtitle').style.display = 'block'; // Mostrar o elemento
+      
       document.querySelector('.buttons').style.display = 'none';
     }
   </script>
 </body>
 </html>
-
