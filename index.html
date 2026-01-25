@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Queres ser o meu valentim? 💘</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #fca7e0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    img {
+      width: 180px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 25px;
+    }
+
+    .buttons {
+      position: relative;
+      height: 80px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #yesBtn {
+      background-color: #22c55e;
+      color: white;
+      margin-right: 15px;
+    }
+
+    #noBtn {
+      background-color: #dc2626;
+      color: white;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img id="mainImage" src="imgs/8d85674d-82b3-4002-8153-f34df4e6bafe.jpg" />
+    <h1 id="text">Will you be my Valentine?</h1>
+
+    <div class="buttons">
+      <button id="yesBtn" onclick="yesClick()">Sim</button>
+      <button id="noBtn" onclick="noClick()">Não</button>
+    </div>
+  </div>
+
+  <script>
+    const images = [
+      'imgs/bc22a82a-a2db-4500-9c05-a7da1b7b55e4.jpg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.23.48 (1).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.23.48.jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.23.49 (1).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.23.49 (2).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.23.49 (3).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.23.49 (4).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.23.49 (5).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.23.49.jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.23.51 (3).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.23.53 (2).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.27.32 (1).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.27.32 (2).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.27.32.jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.27.33 (1).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.27.33.jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.29.53 (1).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.29.53.jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.29.54 (1).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.29.54 (2).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.29.54 (3).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.29.54 (4).jpeg',
+      'imgs/WhatsApp Image 2026-01-25 at 18.29.54 (5).jpeg'
+    ];
+
+    const noTexts = [
+      'Certeza?',
+      'Pensa melhor 😢',
+      'Vai lá 🥺',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔',
+      'ultima chance 💔'
+    ];
+
+    let noCount = 0;
+    let yesScale = 1;
+
+    function noClick() {
+      const img = document.getElementById('mainImage');
+      const noBtn = document.getElementById('noBtn');
+      const yesBtn = document.getElementById('yesBtn');
+
+      noCount++;
+
+      // mudar imagem
+      img.src = images[noCount % images.length];
+
+      // mudar texto do botão NÃO
+      noBtn.textContent = noTexts[noCount % noTexts.length];
+
+      // aumentar botão SIM
+      yesScale += 0.2;
+      yesBtn.style.transform = `scale(${yesScale})`;
+    }
+
+    function yesClick() {
+      document.getElementById('mainImage').src = 'imgs/WhatsApp Image 2026-01-25 at 18.55.32.jpeg';
+      document.getElementById('text').textContent = 'Yaaay 💖';
+      document.querySelector('.buttons').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
