@@ -13,10 +13,95 @@
       align-items: center;
       height: 100vh;
       margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Container para os emojis de fundo */
+    .emoji-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 24px;
+      opacity: 0.7;
+      animation: float 8s infinite linear; /* Mais rápido (8s em vez de 15s) */
+      bottom: -50px; /* Começar abaixo da tela */
+    }
+
+    /* Animações mais rápidas */
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+        bottom: -50px;
+      }
+      10% {
+        opacity: 0.7;
+      }
+      90% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-110vh) rotate(360deg); /* Mover para cima */
+        opacity: 0;
+        bottom: 100vh;
+      }
+    }
+
+    @keyframes float2 {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0;
+        bottom: -50px;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-110vh) translateX(100px) rotate(-360deg);
+        opacity: 0;
+        bottom: 100vh;
+      }
+    }
+
+    @keyframes float3 {
+      0% {
+        transform: translateY(0) translateX(100px) rotate(0deg);
+        opacity: 0;
+        bottom: -50px;
+      }
+      10% {
+        opacity: 0.5;
+      }
+      90% {
+        opacity: 0.5;
+      }
+      100% {
+        transform: translateY(-110vh) translateX(-100px) rotate(180deg);
+        opacity: 0;
+        bottom: 100vh;
+      }
     }
 
     .container {
       text-align: center;
+      z-index: 2;
+      position: relative;
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 30px;
+      border-radius: 15px;
+      backdrop-filter: blur(5px);
     }
 
     img {
@@ -33,7 +118,7 @@
       font-size: 18px;
       color: #333;
       margin-top: 10px;
-      display: none; /* Inicialmente escondido */
+      display: none;
     }
 
     .buttons {
@@ -47,6 +132,8 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      z-index: 3;
+      position: relative;
     }
 
     #yesBtn {
@@ -63,6 +150,9 @@
   </style>
 </head>
 <body>
+  <!-- Div para os emojis de fundo -->
+  <div class="emoji-background" id="emojiBackground"></div>
+
   <div class="container">
     <img id="mainImage" src="imgs/8d85674d-82b3-4002-8153-f34df4e6bafe.jpg" />
     <h1 id="text">Queres passar o dia de São Valentim comigo?</h1>
@@ -129,8 +219,81 @@
       'ultima chance 💔'
     ];
 
+    // Array de emojis fofos (com raposa adicionada)
+    const cuteEmojis = ['💖', '💕', '💘', '💝', '💗', '💓', '💞', '💟', '🥰', '😍', '😘', '💋', '💌', '🌸', '🌺', '🌷', '💐', '🦋', '🐇', '🐰', '🦊', '🦝', '🐾', '✨', '🌟', '🎀', '🎁', '🎂', '🍭', '🍬', '🍫', '🧁', '🫶', '🤗', '🤍', '🐻', '🧸'];
+
     let noCount = 0;
     let yesScale = 1;
+    let emojiInterval;
+
+    // Função para criar um emoji
+    function createEmoji() {
+      const emojiBackground = document.getElementById('emojiBackground');
+      
+      // Limitar número máximo de emojis para evitar acumulação
+      if (emojiBackground.children.length > 50) {
+        if (emojiBackground.firstChild) {
+          emojiBackground.removeChild(emojiBackground.firstChild);
+        }
+      }
+      
+      const emoji = document.createElement('div');
+      emoji.className = 'emoji';
+      emoji.textContent = cuteEmojis[Math.floor(Math.random() * cuteEmojis.length)];
+      
+      // Posição aleatória na horizontal
+      const left = Math.random() * 100;
+      emoji.style.left = `${left}%`;
+      
+      // Atraso aleatório para animação (mais curto)
+      const delay = Math.random() * 5;
+      emoji.style.animationDelay = `${delay}s`;
+      
+      // Escolher animação aleatória
+      const animationType = Math.floor(Math.random() * 3);
+      if (animationType === 1) {
+        emoji.style.animationName = 'float2';
+        emoji.style.animationDuration = `${7 + Math.random() * 3}s`; // 7-10s
+      } else if (animationType === 2) {
+        emoji.style.animationName = 'float3';
+        emoji.style.animationDuration = `${6 + Math.random() * 4}s`; // 6-10s
+      } else {
+        emoji.style.animationDuration = `${8 + Math.random() * 2}s`; // 8-10s
+      }
+      
+      // Tamanho aleatório
+      const size = 20 + Math.random() * 25;
+      emoji.style.fontSize = `${size}px`;
+      
+      // Remover emoji após a animação
+      emoji.addEventListener('animationend', function() {
+        if (emoji.parentNode) {
+          emoji.parentNode.removeChild(emoji);
+        }
+      });
+      
+      emojiBackground.appendChild(emoji);
+    }
+
+    // Função para criar vários emojis de uma vez
+    function createMultipleEmojis(count) {
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          createEmoji();
+        }, i * 100); // Pequeno intervalo entre cada um
+      }
+    }
+
+    // Inicializar emojis quando a página carregar
+    window.onload = function() {
+      // Criar alguns emojis iniciais
+      createMultipleEmojis(15);
+      
+      // Criar novos emojis periodicamente (mais frequente)
+      emojiInterval = setInterval(() => {
+        createEmoji();
+      }, 500); // A cada 500ms (mais rápido)
+    };
 
     function noClick() {
       const img = document.getElementById('mainImage');
@@ -153,15 +316,30 @@
     function yesClick() {
       document.getElementById('mainImage').src = 'imgs/WhatsApp Image 2026-01-25 at 18.55.32.jpeg';
       document.getElementById('text').textContent = 'Yaaay 💖';
-            document.getElementById('subtitle').textContent = 'Vou te buscar às 11 horas! 😊💕';
-      document.getElementById('subtitle').style.display = 'block'; // Mostrar o elemento
+      document.getElementById('subtitle').textContent = 'Vou te buscar às 11 horas! 😊💕';
+      document.getElementById('subtitle').style.display = 'block';
       
       document.querySelector('.buttons').style.display = 'none';
+      
+      // Aumentar ainda mais os emojis quando ela disser sim!
+      clearInterval(emojiInterval); // Parar intervalo atual
+      
+      // Criar muitos emojis de uma vez
+      createMultipleEmojis(30);
+      
+      // Começar intervalo mais rápido para celebração
+      emojiInterval = setInterval(() => {
+        createEmoji();
+      }, 200); // Muito mais rápido para celebrar!
+      
+      // Parar após 10 segundos e voltar ao normal
+      setTimeout(() => {
+        clearInterval(emojiInterval);
+        emojiInterval = setInterval(() => {
+          createEmoji();
+        }, 500);
+      }, 10000);
     }
   </script>
 </body>
 </html>
-
-
-
-
